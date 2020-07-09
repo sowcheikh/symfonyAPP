@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Chambres
+{% endblock %}
+
+{% block body %}
+<div class="card card-outline-secondary w-75 m-auto">
+	<table class="table" id="myTable">
+    <thead class="thead-dark">
+		<tr>
+			<th>Numéro chambre</th>
+			<th>Numéro batiment</th>
+			<th>Type de chambre</th>
+			<th>Action</th>
+		</tr>
+         </thead>
+  <tbody>
+		{% for chambre in chambres %}
+			<tr>
+				<td> {{chambre.numch}} </td>
+				<td> {{chambre.numbat}} </td>
+				<td> {{chambre.type}} </td>
+				<td> 
+				<a href=" {{path('chambre_update',{'id': chambre.id} )}}"><span class="text text-warning"> <i class="fa fa-pencil-square-o warning" aria-hidden="true"></i></span></a>
+				<a href=" {{path('chambre_delete',{'id': chambre.id} )}}" onclick="return confirm('Voullez-vous supprimer cette chambre');"><span class="text text-danger"> <i class="fa fa-trash-o danger" aria-hidden="true"></i></span></a>
+				</td>
+			</tr>
+			{% else %}
+		<p class="text text-center text-primary"> Désolé aucune chambre disponible </p>
+		{% endfor %}
+        </tbody>
+	</table>
+	</div>
+{% endblock %}

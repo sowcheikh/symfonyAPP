@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Etudiants{% endblock %}
+
+{% block body %}
+<div class="card card-outline-secondary w-100 m-auto overflow-auto">
+  <table class="table" id="myTable">
+    <thead class="thead-dark">
+		<tr>
+			<th>Matricule</th>
+            <th>Prénom</th>
+			<th>Nom</th>
+			<th>Email</th>
+            <th>Téléphone</th>
+            <th>Date de naissance</th>
+            <th>Boursier</th>
+            <th>Loger</th>
+            <th>Numéro chambre</th>
+			<th>Action</th>
+		</tr>
+	</thead>
+  <tbody>
+  {% if etudiants|length >0 %}
+		{% for etudiant in etudiants %}
+			<tr>
+				<td> {{etudiant.matricule}} </td>
+                <td> {{etudiant.prenom}} </td>
+				<td> {{etudiant.nom}} </td>
+				<td> {{etudiant.email}} </td>
+                <td> {{etudiant.telephone}} </td>
+                <td> {{etudiant.datenaissance | date('d/m/Y')}} </td>
+                <td> {{etudiant.boursier}} </td>
+                <td> {{etudiant.loger}} </td>
+                <td> {{etudiant.occuper.numch}} </td>
+				<td>
+				<a href=" {{path('etudiant_update',{'id': etudiant.id} )}}"><span class="text text-warning"> <i class="fa fa-pencil-square-o warning" aria-hidden="true"></i></span></a>
+      			<a href=" {{path('etudiant_delete',{'id': etudiant.id} )}}"><span class="text text-danger"> <i class="fa fa-trash-o danger" aria-hidden="true"></i></span></a>
+				</td>
+			</tr>
+		{% endfor %}
+		{% else %}
+		<p class="text text-center text-primary"> Désolé aucun étudiant disponible </p>
+		{% endif %}
+		 </tbody>
+	</table>
+	</div>
+{% endblock %}

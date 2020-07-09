@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}Enregistrer chambre{% endblock %}
+
+{% block body %}
+<div class="card card-outline-secondary w-50 m-auto">
+    <div class="card-header">
+    <div id="alert" role="alert"></div>
+        <h3 class="mb-0">Enregistrer une chambre</h3>
+    </div>
+ <div class="card-body">
+{{form_start(form)}}
+<div class="form-row">
+<div class="form-group col-md-6">
+{{form_row(form.numch, { 'label': 'Numéro chambre' })}}
+</div>
+<div class="form-group col-md-6">
+{{form_row(form.numbat, { 'label': 'Numéro batiment' })}}
+</div>
+</div>
+<div class="form-row">
+<div class="form-group col-md-6">
+{{form_row(form.type, { 'label': 'Type de chambre' })}}
+</div>
+</div>
+<input name="" id="" class="btn btn-primary" type="submit" value="Enregistrer">
+{{form_end(form)}}
+</div>
+</div>
+{% endblock %}

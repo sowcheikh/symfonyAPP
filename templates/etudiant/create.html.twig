@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Enregistrer Etudiant{% endblock %}
+
+{% block body %}
+<div class="card card-outline-secondary w-75 m-auto">
+    <div class="card-header">
+        <h3 class="mb-0">Enregistrer un étudiant</h3>
+    </div>
+    <div class="card-body">
+{{form_start(form)}}
+{{form_widget(form)}}
+<input name="" id="" class="btn btn-primary mt-5" type="submit" value="Enregistrer">
+{{form_end(form)}}
+</div>
+{% endblock %}
+ {% block javascripts %}
+ <script src=" {{asset("js/script.js")}} "></script>
+  <script src=" {{asset("js/saveStudent.js")}} "></script>
+ {% endblock %}
