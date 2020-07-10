@@ -145,6 +145,7 @@ class EtudiantController extends AbstractController
             $matricule = genererMat($date,$nom,$prenom);
             
             $etudiant->setMatricule($matricule);
+            $etudiant->setStatus(1);
           //  dd($etudiant);
             $em->persist($etudiant);
             $em->flush();
@@ -180,7 +181,8 @@ class EtudiantController extends AbstractController
      */
     public function delete(EntityManagerInterface $em, Etudiant $etudiant, FlashyNotifier $flashy)
     {
-        $em->remove($etudiant);
+        // $em->remove($etudiant);
+        $etudiant->setStatus(0);
         $em->flush();
         $flashy->info('Un étudiant a été supprimer!', 'etudiant');
         return $this->redirectToRoute('etudiant');

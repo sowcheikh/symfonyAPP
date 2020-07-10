@@ -22,6 +22,7 @@
   <tbody>
   {% if etudiants|length >0 %}
 		{% for etudiant in etudiants %}
+		{% if etudiant.status == 1 %}
 			<tr>
 				<td> {{etudiant.matricule}} </td>
                 <td> {{etudiant.prenom}} </td>
@@ -37,6 +38,7 @@
       			<a href=" {{path('etudiant_delete',{'id': etudiant.id} )}}" onclick="return confirm('Voullez-vous supprimer cet étudiant');"><span class="text text-danger"> <i class="fa fa-trash-o danger" aria-hidden="true"></i></span></a>
 				</td>
 			</tr>
+			{% endif %}
 		{% endfor %}
 		{% else %}
 		<p class="text text-center text-primary"> Désolé aucun étudiant disponible </p>
