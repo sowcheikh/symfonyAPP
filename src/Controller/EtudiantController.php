@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
+use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -34,7 +34,7 @@ class EtudiantController extends AbstractController
          /**
      * @Route("etudiant/create", name="etudiant_create", methods={"POST", "GET"})
      */
-    public function create(Request $request, EntityManagerInterface $em):Response
+    public function create(Request $request, EntityManagerInterface $em, FlashyNotifier $flashy):Response
     {
         $etudiant = new Etudiant();
         $form = $this->createFormBuilder($etudiant)
@@ -64,11 +64,11 @@ class EtudiantController extends AbstractController
             'row_attr' => [
                 'class' => 'myclass'
             ],
-            'attr'=> ['placeholder' => 'Exp: 770000000']
+            'attr'=> ['placeholder' => 'Exp: 77-000-00-00']
         ])
         ->add('datenaissance', BirthdayType::class,
         [
-            'label' => 'Date inscription',
+            'label' => 'Date de naissance',
             'required' => true,
             'row_attr' => [
                 'class' => 'myclass'
@@ -115,19 +115,42 @@ class EtudiantController extends AbstractController
             'class' => Chambre::class,
             'choice_label' => 'numch',
         ])
-        ->add('matricule', TextType::class, [
-            'label' => 'Matricule',
-            'attr'=> ['placeholder' => 'Entrer le matricule']
-        ])
         ->getForm()
         ;
         $form = $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) { 
             // dd($etudiant);
             // $em= $this->getDoctrine()->getManager();
+            function genererMat($dateajout,$nom,$prenom)
+            {
+               $unik=rand(1000, 9999);
+               
+               $matricule="";
+               $matricule.=$dateajout[0];
+               $matricule.=$dateajout[1];
+               $matricule.=$dateajout[2];
+               $matricule.=$dateajout[3];
+               $matricule.=$nom[0];
+               $matricule.=$nom[1];
+               $tailleP=strlen($prenom);
+               $matricule.=$prenom[$tailleP-2];
+               $matricule.=$prenom[$tailleP-1];
+               $matricule.=$unik;
+               $result= strtoupper($matricule);
+               return $result;
+            }
+            $data=$form->getData();
+            // dd($data->getDate());
+             $date= $data->getDateajout()->format('Y-m-d ');
+             $nom= $data->getNom();
+             $prenom= $data->getPrenom();
+            $matricule = genererMat($date,$nom,$prenom);
             
+            $etudiant->setMatricule($matricule);
+          //  dd($etudiant);
             $em->persist($etudiant);
             $em->flush();
+            $flashy->primaryDark('Un étudiant a été bien enregistrer!');
             return $this->redirectToRoute('etudiant');
         }
         return $this->render('etudiant/create.html.twig', [
@@ -156,10 +179,11 @@ class EtudiantController extends AbstractController
         /**
      * @Route("etudiant/{id<[0-9]+>}/delete", name="etudiant_delete")
      */
-    public function delete(EntityManagerInterface $em, Etudiant $etudiant)
+    public function delete(EntityManagerInterface $em, Etudiant $etudiant, FlashyNotifier $flashy)
     {
         $em->remove($etudiant);
         $em->flush();
+        $flashy->info('Un étudiant a été supprimer!');
         return $this->redirectToRoute('etudiant');
     }
 }

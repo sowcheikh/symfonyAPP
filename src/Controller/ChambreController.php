@@ -37,9 +37,17 @@ class ChambreController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) { 
             // dd($chambre);
             // $em= $this->getDoctrine()->getManager();
+            $rand = random_int(1, 10000);
+            if ($chambre->getNumbat() <= 9) {
+                $chambre->setNumch("000".$chambre->getNumbat()."-".$rand);
+            }elseif ($chambre->getNumbat() <= 99) {
+                $chambre->setNumch("00".$chambre->getNumbat()."-".$rand);
+            }elseif ($chambre->getNumbat() <= 999) {
+                $chambre->setNumch("0".$chambre->getNumbat()."-".$rand);
+            }
             $em->persist($chambre);
             $em->flush();
-            $flashy->primaryDark('Chambre enregistrer!', 'http://your-awesome-link.com');
+            $flashy->primaryDark('Chambre enregistrer!', 'chambre');
             return $this->redirectToRoute('chambre');
         }
         // dump($chambre);
@@ -57,7 +65,7 @@ class ChambreController extends AbstractController
         $form = $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) { 
             $em->flush();
-            $flashy->success('Chambre modifier!', 'http://your-awesome-link.com');
+            $flashy->success('Chambre modifier!', 'chambre');
             return $this->redirectToRoute('chambre');
         }
         // dump($chambre);

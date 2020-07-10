@@ -12,7 +12,6 @@ class ChambreType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('numch')
             ->add('numbat')
             ->add('type')
         ;

@@ -3,7 +3,7 @@
 {% block title %}Etudiants{% endblock %}
 
 {% block body %}
-<div class="card card-outline-secondary w-100 m-auto overflow-auto">
+<div class="card card-outline-secondary w-100 m-auto" id="result">
   <table class="table" id="myTable">
     <thead class="thead-dark">
 		<tr>
@@ -34,7 +34,7 @@
                 <td> {{etudiant.occuper.numch}} </td>
 				<td>
 				<a href=" {{path('etudiant_update',{'id': etudiant.id} )}}"><span class="text text-warning"> <i class="fa fa-pencil-square-o warning" aria-hidden="true"></i></span></a>
-      			<a href=" {{path('etudiant_delete',{'id': etudiant.id} )}}"><span class="text text-danger"> <i class="fa fa-trash-o danger" aria-hidden="true"></i></span></a>
+      			<a href=" {{path('etudiant_delete',{'id': etudiant.id} )}}" onclick="return confirm('Voullez-vous supprimer cet étudiant');"><span class="text text-danger"> <i class="fa fa-trash-o danger" aria-hidden="true"></i></span></a>
 				</td>
 			</tr>
 		{% endfor %}
