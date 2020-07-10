@@ -24,6 +24,6 @@
 
 .card-body label{
     color: #777;
-    display: block;
+    display: inline-block;
     margin-bottom: 5px;
 }

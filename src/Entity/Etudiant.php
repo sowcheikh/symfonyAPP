@@ -84,6 +84,11 @@ class Etudiant
      */
     private $matricule;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $status;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -217,6 +222,18 @@ class Etudiant
     public function setMatricule(string $matricule): self
     {
         $this->matricule = $matricule;
+
+        return $this;
+    }
+
+    public function getStatus(): ?bool
+    {
+        return $this->status;
+    }
+
+    public function setStatus(bool $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

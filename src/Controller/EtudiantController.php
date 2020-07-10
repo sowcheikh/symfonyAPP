@@ -78,7 +78,7 @@ class EtudiantController extends AbstractController
             [
                 'label' => 'Etudiant boursier',
                 'row_attr' => [
-                    'id'=> 'bourse'
+                    'id'=> 'bourse', 'class' => 'myclass'
                 ],
                 'required'=> false])
         ->add('loger', ChoiceType::class,[
@@ -87,10 +87,8 @@ class EtudiantController extends AbstractController
                 'class' => 'myclass', 'id'=> 'type_etudiant'
             ],
             'choices' => [
-                'Loger' => [
                     'Oui' => 'oui',
                     'Non' => 'non',
-                ]
             ],
         ])
         ->add('adresse', TextType::class, [
@@ -161,12 +159,13 @@ class EtudiantController extends AbstractController
         /**
      * @Route("etudiant/{id<[0-9]+>}/update", name="etudiant_update", methods={"POST", "GET"})
      */
-    public function update(Request $request, EntityManagerInterface $em, Etudiant $etudiant):Response
+    public function update(Request $request, EntityManagerInterface $em, Etudiant $etudiant, FlashyNotifier $flashy):Response
     {
         $form = $this->createForm(EtudiantType::class,$etudiant);
         $form = $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) { 
             $em->flush();
+            $flashy->info('Un étudiant a été mise à jour!', 'etudiant');
             return $this->redirectToRoute('etudiant');
         }
         // dump($etudiant);
@@ -183,7 +182,7 @@ class EtudiantController extends AbstractController
     {
         $em->remove($etudiant);
         $em->flush();
-        $flashy->info('Un étudiant a été supprimer!');
+        $flashy->info('Un étudiant a été supprimer!', 'etudiant');
         return $this->redirectToRoute('etudiant');
     }
 }
